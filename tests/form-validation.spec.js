@@ -4,13 +4,13 @@ test.describe("Form Validation Tests", () => {
 test('TC-004: Form validation with empty required fields', async ({ page }) => {
   await page.goto('https://practice.expandtesting.com/form-validation');
   
-  // Click Register without filling any fields
+  // Натискаме бутона Register без да попълваме полета
   await page.locator('button.btn-primary').click();
   
-  // Verify we are still on the form page (URL didn't change)
+  // Проверяваме, че сме останали на страницата с формата (URL не се е променил)
   await expect(page).toHaveURL(/form-validation/);
   
-  // Verify the Register button is still visible (form didn't submit)
+  // Проверяваме, че бутонът Register все още е видим (формата не е изпратена)
   await expect(page.locator('button.btn-primary')).toBeVisible();
   
   console.log('✅ TC-004: Empty form validation passed');
@@ -19,27 +19,27 @@ test('TC-004: Form validation with empty required fields', async ({ page }) => {
   test("TC-005: Form submission with valid data", async ({ page }) => {
     await page.goto("https://practice.expandtesting.com/form-validation");
 
-    // Fill Contact Name
+    // Попълваме Contact Name
     await page.locator('input[name="ContactName"]').fill("Test User");
 
-    // Fill Contact Number
+    // Попълваме Contact Number
     await page.locator('input[name="contactnumber"]').fill("012-3456789");
 
-    // Fill Date
+    // Попълваме дата
     await page.locator('input[name="pickupdate"]').fill("2025-12-20");
 
-    // Select Payment Method - FIX: use label not value
+    // Избираме метод на плащане - FIX: използваме label, а не value
     await page
       .locator('select[name="payment"]')
       .selectOption({ label: "cash on delivery" });
 
-    // Submit form
+    // Изпращаме формата
     await page.locator("button.btn-primary").click();
 
-    // Wait for confirmation page
+    // Изчакваме страницата за потвърждение
     await page.waitForURL("**/form-confirmation", { timeout: 10000 });
 
-    // Verify success message
+    // Проверяваме съобщението за успешна регистрация
     const successMessage = page.locator(
       "text=Thank you for validating your ticket"
     );
